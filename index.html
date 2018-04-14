@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Milliman | Navigation Design</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+
+    <div class="top-header"></div>
+    <div class="nav-main">
+        <div class="home-button"> </div>
+        <div class="nav-option" @click="navSelected='teams'" v-bind:class="{selected: navSelected === 'teams'}"
+        @mouseover="dropMenu=true">Teams<i class="arrow-up"></i></div>
+        <div class="nav-option" @click="navSelected='global'" v-bind:class="{selected: navSelected === 'global'}">Global Corporate Services<i class="arrow-up"></i></div>
+        <div class="nav-option" @click="navSelected='research'" v-bind:class="{selected: navSelected === 'research'}">Research<i class="arrow-up"></i></div>
+        <div class="nav-option" @click="navSelected='summary'" v-bind:class="{selected: navSelected === 'summary'}">Summary<i class="caret"></i><i class="arrow-up"></i>
+            <div class="drop-menu">
+                <ul>
+                    <template  v-for="(i, k) in navOptions.items" :key="i">
+                        <li class="nav-drop-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- <div v-if="dropMenu" class="drop-menu">
+            <ul>
+                <template  v-for="(i, k) in navOptions.items" :key="i">
+                    <li class="nav-drop-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</li>
+                </template>
+            </ul>
+        </div>   -->
+    </div>
+    
+    <div class="nav-second">
+        <template  v-for="(i, k) in navOptions.items" :key="i">
+            <div class="nav-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</div>
+        </template>
+    </div>
+
+
+
+    <div class="search">
+        <div class="crumbs"><a href="#" @click="pageClick(0)">Home</a>|<span>{{pageTitle}}</span></div>
+        <input type="text" class="search-bar" placeholder="Search this site..." />
+        <i class="ms-Icon ms-Icon--Search x-hidden-focus" title="Search" aria-hidden="true"></i>
+    </div>
+    <div class="content">
+        <div class="nav-left" v-if="page!=4">
+        <!-- <button class="ms-Button primary">Join Group</button> -->
+ <!-- Add or edit links -->
+            <div class="links-header">Navigation</div>
+            <ul>
+                <li @click="pageClick(0)" v-bind:class="{active: navSelected === 'home'}">Home</li>
+                <li @click="pageClick(1)" v-bind:class="{active: navSelected === 'categories'}">Categories</li>
+                <li @click="pageClick(2)" v-bind:class="{active: navSelected === 'members'}">Members</li>
+                <li @click="pageClick(3)" v-bind:class="{active: navSelected === 'about'}">About</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">FAQ's</li>
+            </ul>
+
+            <div class="links-header">Resources</div>
+            <ul>
+                <li>Quisque pulvinar</li>
+                <li>Metus non mi tincidunt</li>
+                <li>Dapibus sagittis velit iaculis</li>
+                <li>Quisque vel justo</li>
+                <li>Suis est lacinia</li>
+            </ul>
+        </div>
+        <div class="nav-left" v-if="page===4">
+            <div class="links-header">Categories:</div>
+            <ul>
+                <li @click="pageClick(0)" v-bind:class="{active: navSelected === 'home'}">All (32)</li>
+                <li @click="pageClick(1)" v-bind:class="{active: navSelected === 'categories'}">Help (3)</li>
+                <li @click="pageClick(2)" v-bind:class="{active: navSelected === 'members'}">Site (5)</li>
+                <li @click="pageClick(3)" v-bind:class="{active: navSelected === 'about'}">Library (3)</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">Champions (2)</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">Announcements (3)</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">Discussions (6)</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">Events (4)</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">Membership (4)</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">Lead (1)</li>
+                <li @click="pageClick(4)" v-bind:class="{active: navSelected === 'faq'}">Calendar (1)</li>
+            </ul>
+            
+        </div>
+        <!-- CONTENT -->
+        <div class="page">
+            <!-- <div class="col-right">Right hand column</div> -->
+            <div class="col-center">
+
+                <!-- <div class="page-header">My First Community Site</div> -->
+                <div class="page-header2">
+                    <div class="icon-block">
+                        <div class="text">Icon</div>
+                    </div>
+                    <div class="title-text">{{pageTitle}}</div>
+                </div>
+                <div class="bottom-grey"></div>
+
+                <div class="page-one" v-if="page===0">
+                    <div class="about-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quo omnis ratione, repellendus officia ex eaque maxime quis nemo deserunt fugit fuga debitis in sit tenetur velit quisquam tempora exercitationem.</div>
+
+                    <div class="control">
+                        <div class="header">Announcements <span><i class="ms-Icon ms-Icon--Add x-hidden-focus" title="Add" aria-hidden="true"></i> Add announcement</span></div>
+                        <div class="control-content">There are currently no announcements.</div>
+                    </div>
+
+                    <div class="control">
+                        <div class="header">Discussion <span><i class="ms-Icon ms-Icon--Add x-hidden-focus" title="Add" aria-hidden="true"></i> New discussion</span></div>
+                        <!-- <div class="control-content">There are currently no discussions.</div> -->
+                        
+                        <img src="DiscussionList-V2_Test_Community_Home.png" alt="">
+                    </div>
+
+                    <div class="control">
+                        <div class="header">Public Library <span><i class="ms-Icon ms-Icon--Add x-hidden-focus" title="Add" aria-hidden="true"></i> New document</span></div>
+                        <div class="control-content">There are currently no documents.</div>
+                    </div>
+
+                    <div class="control">
+                        <div class="header">Project Library <span><i class="ms-Icon ms-Icon--Add x-hidden-focus" title="Add" aria-hidden="true"></i> New document</span></div>
+                        <div class="control-content">There are currently no documents.</div>
+                    </div>
+                </div>
+
+                <div class="page-two" v-if="page===1">
+                    <div class="about-text">Pick a category and get into the conversation.</div>
+
+                    <div class="control">
+                         <div>A-Z Z-A What's hot ...</div>
+                         <div class="block"><div><div>Features</div></div></div>
+                         <div class="block"><div><div>General</div></div></div>
+                         <div class="block"><div><div>Technical</div></div></div>
+                         <div class="block"><div><div>UX</div></div></div>
+                    </div>
+                </div>
+                
+                <div class="page-three" v-if="page===2">
+                    <div class="control grid-members">
+                        <div class="header">Community Champions<span>
+                            <i class="ms-Icon ms-Icon--Add x-hidden-focus" title="Add" aria-hidden="true"></i> New item</span></div>
+                        
+                        <div class="grid-members">
+                            <i class="ms-Icon ms-Icon--Accept x-hidden-focus" title="Accept" aria-hidden="true"></i>
+                            <span class="member-header">Member</span>
+                            <img src="https://my.milliman.com:443/User%20Photos/Profile%20Pictures/chace_cade_SThumb.jpg?t=63647621788" alt="Chace Cade"> 
+                                <span>Chace Cade <br>Operations Administrator, Dallas - BRC</span>
+                            <img src="https://my.milliman.com:443/User%20Photos/Profile%20Pictures/jon_huard_SThumb.jpg?t=63647621275" alt="Jon Huard"> 
+                                <span>Jon Huard <br>Senior Network Administrator, Chicago - Life</span>
+                            <img src="https://my.milliman.com:443/User%20Photos/Profile%20Pictures/mathew_frehner_SThumb.jpg?t=63647621887" alt="Mathew Frehner"> 
+                                <span>Mathew Frehner <br>Manager, Operations &amp; Infrastructure, Seattle - Systems</span>
+                            <img src="https://my.milliman.com:443/User%20Photos/Profile%20Pictures/scott_patashnick_SThumb.jpg?t=63647621592" alt="Scott L Patashnick"> 
+                                <span>Scott L Patashnick <br>Network Support Specialist, Albany - Health</span>
+                            <img src="https://my.milliman.com:443/User%20Photos/Profile%20Pictures/steve_kodra_SThumb.jpg?t=63647621564" alt="Steve Kodra"> 
+                                <span>Steve Kodra <br>Systems Administrator, Denver - Employee Benefits</span>
+                            <img src="https://my.milliman.com:443/User%20Photos/Profile%20Pictures/troy_hebert_SThumb.jpg?t=63647621754" alt="Troy Hebert"> 
+                                <span>Troy Hebert <br>IT Lead Support Services, Seattle - Systems</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="page-three" v-if="page===3">
+Four
+                </div>
+                
+                <div class="page-three" v-if="page===4">
+<!-- FAQs                     -->
+                    <div class="control">
+                        <input type="text" class="search-bar" placeholder="Search FAQs..." />
+                        <i class="ms-Icon ms-Icon--Search x-hidden-focus" title="Search" aria-hidden="true"></i>
+                        <div class="header">All Frequently Asked Questions</div>
+                    <!-- </div>
+                    <div class="control"> -->
+                        
+                        <div class="qa">
+                            <i class="ms-Icon ms-Icon--ChevronUpSmall" style="display:none;padding-right:5px;"></i>
+                            <i class="ms-Icon ms-Icon--ChevronDownSmall" style="padding-right:5px;"></i>
+                            How do I?</div>
+                        <div class="answer">
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta ratione libero et odio facilis cupiditate necessitatibus, ad error enim consequuntur amet aut accusamus deserunt adipisci repellat? Hic pariatur aut eos.
+                            Nemo veniam reprehenderit impedit modi qui illum perspiciatis eos error dolores voluptas? Laboriosam dolor accusantium iusto corporis et ea maiores, corrupti nihil aliquid facilis quam repellendus temporibus, placeat, pariatur quasi.
+                            Voluptas et vitae unde cupiditate hic soluta modi, nobis magni, velit officiis minima impedit nisi molestiae eveniet veritatis harum voluptatum eaque nihil dolorem sit. Necessitatibus incidunt doloribus explicabo ipsam expedita.
+                            </p><p>Commodi architecto in adipisci? Reiciendis officia deserunt vero id dicta sint veritatis praesentium a quasi? Vel doloremque aspernatur veritatis recusandae molestiae quam unde similique tempore. Quisquam molestias placeat eveniet doloremque.
+                            Autem quam magni provident numquam placeat tempora quaerat recusandae eius a ipsum ducimus voluptatem consectetur dolorum hic quia excepturi eum quod, voluptatum alias labore doloribus odit illum similique. Veritatis, quis?
+                            Voluptatum inventore beatae expedita laudantium, alias exercitationem aliquid corporis minima, quo dolorem, labore tempora maxime perferendis illum eos accusantium facilis. Fugit reiciendis iusto quos excepturi qui harum doloremque eveniet enim.
+                            </p><p>Facilis mollitia reprehenderit veniam expedita quam quis dolore omnis fuga eveniet officiis accusamus perspiciatis voluptatum laudantium, praesentium necessitatibus minima doloribus excepturi voluptas dignissimos deserunt eius. Necessitatibus voluptatum non et quis?
+                            Possimus quis quam rem voluptas, amet vero quo id. Sunt labore adipisci autem accusamus magnam, neque ipsam quia! Tempora provident quia cupiditate quas optio incidunt consequuntur natus sed distinctio excepturi.
+                            Rem expedita facilis magni? Officia corrupti odit maiores, dolorum quos nesciunt. Earum, hic placeat! Nemo non sint enim ab voluptates! Iure molestiae similique soluta quis nostrum vero ad dolore fugiat.
+                            </p>
+                        </div>
+                        <div class="qa">
+                            <i class="ms-Icon ms-Icon--ChevronUpSmall" style="padding-right:5px;"></i>Where is the?</div>
+                        <div class="qa">
+                            <i class="ms-Icon ms-Icon--ChevronUpSmall" style="padding-right:5px;"></i>Is it correct to assume...?</div>
+                        <div class="qa">
+                            <i class="ms-Icon ms-Icon--ChevronUpSmall" style="padding-right:5px;"></i>On the other side of the road...?</div>
+                        <div class="qa">
+                            <i class="ms-Icon ms-Icon--ChevronUpSmall" style="padding-right:5px;"></i>Summer is almost here...?</div>
+                        <div class="qa">
+                            <i class="ms-Icon ms-Icon--ChevronUpSmall" style="padding-right:5px;"></i>Is the week almost over...?</div>
+                    </div>
+
+                    <div v-if="100>toShow" class="pagination">
+                        <div v-on:click="prev" class="disabled">
+                            <i class="ms-Icon ms-Icon--CaretLeftSolid8 x-hidden-focus" aria-hidden="true"></i>
+                        </div>
+                        <div>{{pagePaginate}} of 10</div>
+                         <!-- {{Math.ceil(model.length/toShow)}} -->
+                        <div v- on:click="next">
+                            <i class="ms-Icon ms-Icon--CaretRightSolid8 x-hidden-focus" aria-hidden="true"></i>
+                        </div>
+                    </div> {{toShow}}
+
+                </div>
+
+            </div>
+        <!-- RIGHT CONTENT -->
+            <div class="col-right">
+
+                <div v-if="!manage">
+                <button v-if="!joined" @click="joinSite" class="ms-Button primary">Join Community</button>
+                <!-- <button v-if="joined" @click="joinSite" class="ms-Button delete">Leave Community</button> -->
+                <a href="#" v-if="joined" @click="joinSite" >Leave Community</a>
+                </div>
+                
+                <div v-if="manage" class="control manage" @click="managedView">
+                    <div class="header">Manage</div>
+                    <div class="item"><a href="#">Discussions</a></div>
+                    <div class="item"><a href="#">Categories</a></div>
+                    <div class="item"><a href="#">Members</a></div>
+                    <div class="item"><a href="#">Reputation Settings</a></div>
+                    <div class="item"><a href="#">Community Settings</a></div>
+                </div>
+
+                <div class="control">
+                    <div class="header">What's Happening</div>
+                    <div class="item"><span><a href="#">3</a></span> members</div>
+                    <div class="item"><span><a href="#">5</a></span> discussions</div>
+                    <div class="item"><span><a href="#">24</a></span> replies</div>
+                </div>
+                
+                <div class="control">
+                    <div class="header">Top Contributors</div>
+                    <div class="person-item">
+                        <div class="box-photo"></div>
+                        <div class="person-text">Chris Rogers</div>
+                    </div>
+                    <div class="person-item">
+                        <div class="box-photo"></div>
+                        <div class="person-text">Jennifer Mason</div>
+                    </div>
+                    <div class="person-item">
+                        <div class="box-photo"></div>
+                        <div class="person-text">Laura Rogers</div>
+                    </div>
+                </div>
+                
+                <div class="control">
+                    <div class="header">Events</div>
+                    <div class="event-item">
+                        <div class="box-event">
+                            <div class="month">Apr</div>
+                            <div class="day">27</div>
+                        </div>
+                        <div class="event-text">Meet the group<br>
+                            time here, location
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="box-event">
+                            <div class="month">May</div>
+                            <div class="day">1</div>
+                        </div>
+                        <div class="event-text">Lunch with CEO<br>
+                            time here, location
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="box-event">
+                            <div class="month">May</div>
+                            <div class="day">12</div>
+                        </div>
+                        <div class="event-text">Holiday<br>
+                            time here, location
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                isActive: true,
+                joined: false,
+                manage: true,
+                pageTitle: "Site Page Placeholder",
+                pageTitles: [
+                    "Site Page Placeholder",
+                    "Categories",
+                    "Members",
+                    "About",
+                    "FAQs"
+                ],
+                page: 0,
+                classObject: {
+                    active: true,
+                    'text-danger': false
+                },
+                navOptions: {
+                    selected: {},
+                    items: [
+                        {label: 'About us',value:'about'},
+                        {label: 'Policies & Proceedures',value:'policies'},
+                        {label: 'Other',value:'other'},
+                        {label: 'Last one',value:'last'}
+                    ]
+                },
+                navSelected: 'home',
+                dropMenu: false,
+                nav2Options: [
+                    '',
+                    
+                ],
+                nav2Selected: '',
+                toShow: 45,
+                pagePaginate: 1
+            },
+            methods: {
+                joinSite: function() {
+                    this.joined = !this.joined;
+                    console.log("joined");
+                },
+                managedView: function () {
+                    this.manage = !this.manage
+                    // return  this.managed == this.joined
+                },
+                pageClick: function(item) {
+                    this.pageTitle = this.pageTitles[item];
+                    this.page = item;
+                    (item===0) ? this.navSelected = 'home' : null; 
+                    (item===1) ? this.navSelected = 'categories' : null;
+                    (item===2) ? this.navSelected = 'members' : null;
+                    (item===3) ? this.navSelected = 'about' : null;
+                },
+                selected: function (e) {
+                    //$(e.currentTarget).css('background', '#41c69e')
+                    selected: true
+                },
+                
+                setPage: function () {
+                    var startAt = (this.page - 1) * this.toShow;
+                    var endAt = (this.page * this.toShow);
+                    this.model_set = model.slice(startAt, endAt);
+                    console.log(this.model_set);
+                },
+                prev: function () {
+                    if (this.page > 1) {
+                        this.page--;
+                    } else { }//add disabled
+                    this.setPage();
+                },
+                next: function () {
+                    if ((this.page * this.toShow) < model.length) {
+                        this.page++;
+                    } else { }//add disabled
+                    this.setPage();
+                },
+                setSizeToShow: function () {
+                    var contWidth = $('.container').width();
+
+                    if (contWidth > 1265) {
+                        this.toShow = 48;
+                        this.model_set = model.slice(0, this.toShow);
+                    } else if (contWidth > 1050) {
+                        this.toShow = 45;
+                        this.model_set = model.slice(0, this.toShow);
+                    } else if (contWidth > 870) {
+                        this.toShow = 44;
+                    } else if (contWidth > 630) {
+                        this.toShow = 45;
+                    } else if (contWidth > 400) {
+                        this.toShow = 44;
+                    }
+
+                    this.setPage();
+                    console.log('contWidth::' + contWidth);
+                }
+            },
+            computed: {
+                // a computed getter
+                // managed: function () {
+                //     // `this` points to the vm instance
+                //     return  this.managed
+                // }
+                classObject: function () {
+                    return {
+                        active: this.isActive
+                        //  && !this.error,
+                        // 'text-danger': this.error && this.error.type === 'fatal'
+                    }
+                }
+            }
+        })
+    </script>
+</div>
+</body>
+</html> 
