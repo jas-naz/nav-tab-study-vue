@@ -15,9 +15,33 @@
     <div class="nav-main">
         <div class="home-button"> </div>
         <div class="nav-option" @click="navSelected='teams'" v-bind:class="{selected: navSelected === 'teams'}"
-        @mouseover="dropMenu=true">Teams<i class="arrow-up"></i></div>
-        <div class="nav-option" @click="navSelected='global'" v-bind:class="{selected: navSelected === 'global'}">Global Corporate Services<i class="arrow-up"></i></div>
-        <div class="nav-option" @click="navSelected='research'" v-bind:class="{selected: navSelected === 'research'}">Research<i class="arrow-up"></i></div>
+        @mouseover="dropMenu=true">Teams<i class="arrow-up"></i>
+            <div class="drop-menu">
+                <ul>
+                    <template v-for="(i, k) in navOptions.items" :key="i">
+                        <li class="nav-drop-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+        <div class="nav-option" @click="navSelected='global'" v-bind:class="{selected: navSelected === 'global'}">Global Corporate Services<i class="arrow-up"></i>
+            <div class="drop-menu">
+                <ul>
+                    <template v-for="(i, k) in navOptions.items" :key="i">
+                        <li class="nav-drop-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+        <div class="nav-option" @click="navSelected='research'" v-bind:class="{selected: navSelected === 'research'}">Research<i class="arrow-up"></i>
+            <div class="drop-menu">
+                <ul>
+                    <template v-for="(i, k) in navOptions.items" :key="i">
+                        <li class="nav-drop-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</li>
+                    </template>
+                </ul>
+            </div>
+        </div>
         <div class="nav-option" @click="navSelected='summary'" v-bind:class="{selected: navSelected === 'summary'}">Summary<i class="caret"></i><i class="arrow-up"></i>
             <div class="drop-menu">
                 <ul>
@@ -38,7 +62,7 @@
     </div>
     
     <div class="nav-second">
-        <template  v-for="(i, k) in navOptions.items" :key="i">
+        <template  v-for="(i, k) in navOptions.selected.items" :key="i">
             <div class="nav-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</div>
         </template>
     </div>
@@ -318,7 +342,13 @@ Four
                     'text-danger': false
                 },
                 navOptions: {
-                    selected: {},
+                    selected: {
+                        items: [
+                        {label: 'About us',value:'about'},
+                        {label: 'Policies & Proceedures',value:'policies'},
+                        {label: 'Other',value:'other'},
+                        {label: 'Last one',value:'last'}
+                    ]},
                     items: [
                         {label: 'About us',value:'about'},
                         {label: 'Policies & Proceedures',value:'policies'},
@@ -330,7 +360,7 @@ Four
                 dropMenu: false,
                 nav2Options: [
                     '',
-                    
+                    ''
                 ],
                 nav2Selected: '',
                 toShow: 45,
