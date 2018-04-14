@@ -17,7 +17,7 @@
         
         <template v-for="(i, k) in navOptions.items" :key="i">
         <div class="nav-option" @click="navSelected=i.value" v-bind:class="{selected: navSelected === i.value}"
-        @mouseover="dropMenu=true">{{i.label}}<i class="arrow-up"></i>
+        >{{i.label}}<i class="arrow-up"></i>
             <div class="drop-menu">
                 <ul>
                     <template v-for="(j, k) in i.items" :key="j">
