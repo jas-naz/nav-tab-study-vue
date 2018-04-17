@@ -155,6 +155,14 @@ body {
     }
     .nav-second {
         background-color: @secondary-nav-color;
+        overflow: hidden;
+        &.ribbon {
+            background-color: rgb(255, 255, 200);
+            div {
+                padding: 8px;
+                color: black;
+            }
+        }
         .home-button {
             background-color: transparent;
         }
@@ -211,6 +219,20 @@ body {
                 background-color: @lighter-gray;
                 cursor: pointer;
             }
+        }
+    }
+    input[type=checkbox] {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    input[type=checkbox]:checked ~ div {
+        // &.nav-option {
+        //    pointer-events: none !important;
+        // }
+        .drop-menu {
+            display: none !important;
+            opacity: 0;
         }
     }
 

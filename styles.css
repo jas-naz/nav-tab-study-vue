@@ -95,6 +95,14 @@ body .nav-second .nav-option:hover .drop-menu {
 }
 body .nav-second {
   background-color: #F1F1F1;
+  overflow: hidden;
+}
+body .nav-second.ribbon {
+  background-color: #ffffc8;
+}
+body .nav-second.ribbon div {
+  padding: 8px;
+  color: black;
 }
 body .nav-second .home-button {
   background-color: transparent;
@@ -145,6 +153,15 @@ body .drop-menu li {
 body .drop-menu li:hover {
   background-color: #F1F1F1;
   cursor: pointer;
+}
+body input[type=checkbox] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+body input[type=checkbox]:checked ~ div .drop-menu {
+  display: none !important;
+  opacity: 0;
 }
 body .search,
 body .control {

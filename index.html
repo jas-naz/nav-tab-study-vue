@@ -7,21 +7,26 @@
     <link rel="stylesheet" href="styles.css">
     <title>Milliman | Navigation Design</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <div id="app">
 
     <div class="top-header"></div>
     <div class="nav-main">
-        <div class="home-button"> </div>
+        <div class="home-button" @click="navSelected='';nav2Selected='';navOptions.selected.items=[]"> </div>
         
+        <!-- Used to change the class of dropdown, hidden -->
+        <input type="checkbox" id="toggle-1" v-model="checkedNav">
+
         <template v-for="(i, k) in navOptions.items" :key="i">
-        <div class="nav-option" @click="navSelected=i.value" v-bind:class="{selected: navSelected === i.value}"
-        >{{i.label}}<i class="arrow-up"></i>
+        <div class="nav-option" @click="navSelected=i.value;navOptions.selected.items=i.items;checkedNav=true" v-bind:class="{selected: navSelected === i.value}"
+         v-on:mouseover="checkedNav=false">{{i.label}}<i class="arrow-up"></i>
             <div class="drop-menu">
                 <ul>
                     <template v-for="(j, k) in i.items" :key="j">
-                        <li class="nav-drop-option" @click="nav2Selected=j.value" v-bind:class="{selected: nav2Selected === j.value}">{{j.label}}</li>
+                        <li class="nav-drop-option" @click="nav2Selected=j.value" v-bind:class="{selected: nav2Selected === j.value}"
+                        ><label for="toggle-1">{{j.label}}</label></li>
                     </template>
                 </ul>
             </div>
@@ -30,10 +35,14 @@
 
     </div>
     
-    <div class="nav-second">
+    <div v-if="navOptions.selected.items.length > 0" class="nav-second">
         <template  v-for="(i, k) in navOptions.selected.items" :key="i">
             <div class="nav-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</div>
         </template>
+    </div>
+
+    <div class="nav-second ribbon">
+        <div class="">Ribbon</div>
     </div>
 
 
@@ -108,7 +117,7 @@
                         <div class="header">Discussion <span><i class="ms-Icon ms-Icon--Add x-hidden-focus" title="Add" aria-hidden="true"></i> New discussion</span></div>
                         <!-- <div class="control-content">There are currently no discussions.</div> -->
                         
-                        <img src="DiscussionList-V2_Test_Community_Home.png" alt="">
+                        <!-- <img src="DiscussionList-V2_Test_Community_Home.png" alt=""> -->
                     </div>
 
                     <div class="control">
@@ -291,12 +300,44 @@ Four
     </div>
 
     <script>
+    // document.getElementById('toggle-1').addEventListener('click', autorefresh);
+    $(function() {
+        // window.time = 0; //global declaration
+        // function autorefresh() {
+        //     console.log('here');
+        //     var elm = document.getElementById("toggle-1");
+        //     var isChecked = $("toggle-1").checked;
+        //     if (isChecked == true) {
+        //         time = setInterval(function () {
+        //             // alert('hello');
+        //             // $("toggle-1").prop('checked', false);
+        //             $('toggle-1').prop('checked', false);
+        //         }, 550);
+        //     } else if (isChecked == false) {
+        //         clearInterval(time);
+        //     }
+        // }
+        // autorefresh();
+
+        // document.getElementById('toggle-1').addEventListener('click', autorefresh);
+        // $('toggle-1').addEventListener('click', autorefresh);
+        // $('toggle-1').bind('click', function () {
+        //     autorefresh();
+        //             alert('hello');
+        // });
+    });
+    
+    </script>
+    <script>
+        Vue.config.productionTip = false;
+        Vue.config.devtools = true;
         var vm = new Vue({
             el: '#app',
             data: {
                 isActive: true,
                 joined: false,
                 manage: true,
+                checkedNav: false,
                 pageTitle: "Site Page Placeholder",
                 pageTitles: [
                     "Site Page Placeholder",
@@ -314,35 +355,35 @@ Four
                     selected: {
                         value:'',
                         items: [
-                        {label: 'About us',value:'about'},
-                        {label: 'Policies & Proceedures',value:'policies'},
-                        {label: 'Other',value:'other'},
-                        {label: 'Last one',value:'last'}
+                        // {label: 'About us',value:'about'},
+                        // {label: 'Policies & Proceedures',value:'policies'},
+                        // {label: 'Other',value:'other'},
+                        // {label: 'Last one',value:'last'}
                     ]},
                     items: [
                         {label: 'Teams',value:'teams',items:[
-                            {label: 'My Client Project Sites',value:'about'},
-                            {label: 'My Teams',value:'policies'},
-                            {label: 'My Collaboration Sites',value:'other'},
-                            {label: 'My Committees',value:'other'},
-                            {label: 'My Disciplines',value:'last'}
+                            {label: 'My Client Project Sites',value:'project'},
+                            {label: 'My Teams',value:'teams'},
+                            {label: 'My Collaboration Sites',value:'collaboration'},
+                            {label: 'My Committees',value:'committees'},
+                            {label: 'My Disciplines',value:'disciplines'}
                         ]},
                         {label: 'Global Corporate Services',value:'global',items:[
-                            {label: 'GCS Homepage',value:'about'},
-                            {label: 'Board Agenda',value:'policies'},
-                            {label: 'Client Screening',value:'other'},
-                            {label: 'Confilict Check',value:'last'},
-                            {label: 'Consultant Bookshelf',value:'last'},
-                            {label: 'Employee Bookshelf',value:'last'},
-                            {label: 'Human Resources',value:'last'},
-                            {label: 'MarCom',value:'last'},
-                            {label: 'Milliman A-Z',value:'last'}
+                            {label: 'GCS Homepage',value:'gcs'},
+                            {label: 'Board Agenda',value:'board'},
+                            {label: 'Client Screening',value:'client'},
+                            {label: 'Confilict Check',value:'conflict'},
+                            {label: 'Consultant Bookshelf',value:'consultant'},
+                            {label: 'Employee Bookshelf',value:'employee'},
+                            {label: 'Human Resources',value:'human'},
+                            {label: 'MarCom',value:'marcom'},
+                            {label: 'Milliman A-Z',value:'a-z'}
                         ]},
                         {label: 'Research',value:'research',items:[
-                            {label: 'BIKE',value:'about'},
-                            {label: 'Health Research',value:'policies'},
-                            {label: 'Life Research & Development',value:'other'},
-                            {label: 'Milliman Insight',value:'last'}
+                            {label: 'BIKE',value:'bike'},
+                            {label: 'Health Research',value:'health'},
+                            {label: 'Life Research & Development',value:'life'},
+                            {label: 'Milliman Insight',value:'insight'}
                         ]},
                         {label: 'Summary',value:'summary',items:[
                             {label: 'About us',value:'about'},
@@ -421,7 +462,12 @@ Four
 
                     this.setPage();
                     console.log('contWidth::' + contWidth);
-                }
+                },
+                // uncheck: function (checkedName) {
+                //     this.checkedNav = false;
+                //     // this.checkedNames = this.checkedNames.filter(name => name !== checkedName);
+                //     //this.checkedName = !this.checkedName;
+                // }
             },
             computed: {
                 // a computed getter
