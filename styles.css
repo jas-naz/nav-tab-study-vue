@@ -1,3 +1,4 @@
+@import url('https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.3.0/css/fabric.min.css') screen;
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -40,6 +41,12 @@ body .nav-second .home-button {
   height: 100%;
   background-color: #0E4668;
   margin-right: 10px;
+  cursor: pointer;
+}
+body .nav-main .home-button .ms-Icon,
+body .nav-second .home-button .ms-Icon {
+  margin: 13px 0 0 12px;
+  color: #E3E3E3;
 }
 body .nav-main .arrow-up,
 body .nav-second .arrow-up {

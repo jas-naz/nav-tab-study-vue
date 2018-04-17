@@ -6,18 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css">
     <title>Milliman | Navigation Design</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
 </head>
 <body>
 <div id="app">
 
     <div class="top-header"></div>
     <div class="nav-main">
-        <div class="home-button" @click="navSelected='';nav2Selected='';navOptions.selected.items=[]"> </div>
+        <div class="home-button" @click="navSelected='';nav2Selected='';navOptions.selected.items=[]">
+            <i class="ms-Icon ms-Icon--HomeSolid x-hidden-focus" title="HomeSolid" aria-hidden="true"></i>
+        </div>
         
         <!-- Used to change the class of dropdown, hidden -->
         <input type="checkbox" id="toggle-1" v-model="checkedNav">
+        <!-- <router-link to="/foo">Go to Foo</router-link>
+        <router-link to="/bar">Go to Bar</router-link> -->
 
         <template v-for="(i, k) in navOptions.items" :key="i">
         <div class="nav-option" @click="navSelected=i.value;navOptions.selected.items=i.items;checkedNav=true" v-bind:class="{selected: navSelected === i.value}"
@@ -299,9 +306,11 @@ Four
         </div>
     </div>
 
+    <router-view></router-view>
+
     <script>
     // document.getElementById('toggle-1').addEventListener('click', autorefresh);
-    $(function() {
+    // $(function() {
         // window.time = 0; //global declaration
         // function autorefresh() {
         //     console.log('here');
@@ -325,12 +334,14 @@ Four
         //     autorefresh();
         //             alert('hello');
         // });
-    });
+    // });
     
     </script>
     <script>
-        Vue.config.productionTip = false;
+
+        // Vue.config.productionTip = false;
         Vue.config.devtools = true;
+
         var vm = new Vue({
             el: '#app',
             data: {
@@ -482,8 +493,26 @@ Four
                         // 'text-danger': this.error && this.error.type === 'fatal'
                     }
                 }
-            }
-        })
+            },
+            router:true
+        }).$mount('#app')
+        
+        const Foo = { template: '<div>foo</div>' };
+        const Bar = { template: '<div>bar</div>' };
+
+        const routes = [
+            { path: '/foo', component: Foo },
+            { path: '/bar', component: Bar }
+        ]
+
+        // const router = new VueRouter({
+        //     mode: 'history',
+        //     routes: [
+        //         routes
+        //         // { path: '/foo', component: Foo },
+        //         // { path: '/bar', component: Bar }
+        //     ]
+        // })
     </script>
 </div>
 </body>

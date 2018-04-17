@@ -1,6 +1,6 @@
 //// @import url('../../milliman-font/styles.css') screen;
 // @import url('https://file.myfontastic.com/yvfWTynKQiPjfEj3TWy27C/icons.css') screen;
-// @import url('https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.3.0/css/fabric.min.css') screen;
+@import url('https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.3.0/css/fabric.min.css') screen;
 //// @import url('https://appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css') screen;
 @lighter-gray: #F1F1F1;
 @light-gray: #E3E3E3;
@@ -89,6 +89,11 @@ body {
             height: 100%;
             background-color: @navy-blue;
             margin-right: 10px;
+            cursor: pointer;
+            .ms-Icon {
+                margin: 13px 0 0 12px;
+                color: @light-gray;
+            }
         }
         .arrow-up {
             content: "";
