@@ -18,7 +18,7 @@
     <div class="top-header"></div>
     <div class="nav-main">
         <div class="home-button" @click="navSelected='';nav2Selected='';navOptions.selected.items=[]">
-            <i class="ms-Icon ms-Icon--HomeSolid x-hidden-focus" title="HomeSolid" aria-hidden="true"></i>
+            <i class="ms-Icon ms-Icon--HomeSolid x-hidden-focus" title="Milliman Home" aria-hidden="true"></i>
         </div>
         
         <!-- Used to change the class of dropdown, hidden -->
@@ -27,9 +27,10 @@
         <router-link to="/bar">Go to Bar</router-link> -->
 
         <template v-for="(i, k) in navOptions.items" :key="i">
-        <div class="nav-option" @click="navSelected=i.value;navOptions.selected.items=i.items;checkedNav=true" v-bind:class="{selected: navSelected === i.value}"
-         v-on:mouseover="checkedNav=false">{{i.label}}<i class="arrow-up"></i>
-            <div class="drop-menu">
+        <div class="nav-option" v-bind:class="{selected: navSelected === i.value}"
+            @click="navSelected=i.value;navOptions.selected.items=i.items;navOptions.selected.expanded=i.expanded;checkedNav=true"
+            v-on:mouseover="checkedNav=false"><span @click="nav2Selected='';">{{i.label}}</span><i class="arrow-up"></i>
+            <div class="drop-menu" v-if="i.items.length>0">
                 <ul>
                     <template v-for="(j, k) in i.items" :key="j">
                         <li class="nav-drop-option" @click="nav2Selected=j.value" v-bind:class="{selected: nav2Selected === j.value}"
@@ -39,12 +40,16 @@
             </div>
         </div>
         </template>
-
+        <div class="right">
+            <div class="nav-option">Milliman.com</div>
+            <div class="nav-option">Help</div>
+            <div class="nav-option">Print</div>
+        </div>
     </div>
     
-    <div v-if="navOptions.selected.items.length > 0" class="nav-second">
+    <div v-if="navOptions.selected.items.length > 0 && navOptions.selected.expanded" class="nav-second">
         <template  v-for="(i, k) in navOptions.selected.items" :key="i">
-            <div class="nav-option" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</div>
+            <div class="nav-option unselectable" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</div>
         </template>
     </div>
 
@@ -365,12 +370,8 @@ Four
                 navOptions: {
                     selected: {
                         value:'',
-                        items: [
-                        // {label: 'About us',value:'about'},
-                        // {label: 'Policies & Proceedures',value:'policies'},
-                        // {label: 'Other',value:'other'},
-                        // {label: 'Last one',value:'last'}
-                    ]},
+                        expanded:false,
+                        items: []},
                     items: [
                         {label: 'Teams',value:'teams',items:[
                             {label: 'My Client Project Sites',value:'project'},
@@ -379,6 +380,7 @@ Four
                             {label: 'My Committees',value:'committees'},
                             {label: 'My Disciplines',value:'disciplines'}
                         ]},
+                        {label:'News & Events',value:'news',items:[]},
                         {label: 'Global Corporate Services',value:'global',items:[
                             {label: 'GCS Homepage',value:'gcs'},
                             {label: 'Board Agenda',value:'board'},
@@ -396,11 +398,16 @@ Four
                             {label: 'Life Research & Development',value:'life'},
                             {label: 'Milliman Insight',value:'insight'}
                         ]},
-                        {label: 'Summary',value:'summary',items:[
-                            {label: 'About us',value:'about'},
-                            {label: 'Policies & Proceedures',value:'policies'},
-                            {label: 'Other',value:'other'},
-                            {label: 'Last one',value:'last'}
+                        {label: 'Policies & Guidelines',value:'policies',expanded:true,items:[
+                            {label: 'Overview', value: 'overview'},
+                            {label: 'Policies',value:'policies'},
+                            {label: 'Guidelines',value:'guidelines'},
+                            {label: 'Procedures',value:'Procedures'}
+                        ]},
+                        {label: 'About Milliman',value:'about',expanded:true,items:[
+                            {label: 'Overview',value:'overview'},
+                            {label: 'Company Timeline',value:'timeline'},
+                            {label: 'Contacts',value:'contacts'}
                         ]}
                     ]
                 },
