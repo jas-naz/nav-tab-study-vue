@@ -29,11 +29,11 @@
         <template v-for="(i, k) in navOptions.items" :key="i">
         <div class="nav-option" v-bind:class="{selected: navSelected === i.value}"
             @click="navSelected=i.value;navOptions.selected.items=i.items;navOptions.selected.expanded=i.expanded;checkedNav=true"
-            v-on:mouseover="checkedNav=false"><span @click="nav2Selected='';">{{i.label}}</span><i class="arrow-up"></i>
+            v-on:mouseover="checkedNav=false"><span @click="nav2Selected='';changeLocation(i.url)">{{i.label}}</span><i class="arrow-up"></i>
             <div class="drop-menu" v-if="i.items.length>0">
                 <ul>
                     <template v-for="(j, k) in i.items" :key="j">
-                        <li class="nav-drop-option" @click="nav2Selected=j.value" v-bind:class="{selected: nav2Selected === j.value}"
+                        <li class="nav-drop-option" @click="nav2Selected=j.value;changeLocation(j.url)" v-bind:class="{selected: nav2Selected === j.value}"
                         ><label for="toggle-1">{{j.label}}</label></li>
                     </template>
                 </ul>
@@ -49,7 +49,7 @@
     
     <div v-if="navOptions.selected.items.length > 0 && navOptions.selected.expanded" class="nav-second">
         <template  v-for="(i, k) in navOptions.selected.items" :key="i">
-            <div class="nav-option unselectable" @click="nav2Selected=i.value" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</div>
+            <div class="nav-option unselectable" @click="nav2Selected=i.value;changeLocation(i.url)" v-bind:class="{selected: nav2Selected === i.value}">{{i.label}}</div>
         </template>
     </div>
 
@@ -373,15 +373,15 @@ Four
                         expanded:false,
                         items: []},
                     items: [
-                        {label: 'Teams',value:'teams',items:[
+                        {label: 'Teams',value:'teams',url:'https://intranet.milliman.com/Pages/MyTeams.aspx',items:[
                             {label: 'My Client Project Sites',value:'project'},
                             {label: 'My Teams',value:'teams'},
                             {label: 'My Collaboration Sites',value:'collaboration'},
                             {label: 'My Committees',value:'committees'},
                             {label: 'My Disciplines',value:'disciplines'}
                         ]},
-                        {label:'News & Events',value:'news',items:[]},
-                        {label: 'Global Corporate Services',value:'global',items:[
+                        {label:'News & Events',value:'news',url:'#news',items:[]},
+                        {label: 'Global Corporate Services',value:'global',url:'#global',items:[
                             {label: 'GCS Homepage',value:'gcs'},
                             {label: 'Board Agenda',value:'board'},
                             {label: 'Client Screening',value:'client'},
@@ -392,19 +392,19 @@ Four
                             {label: 'MarCom',value:'marcom'},
                             {label: 'Milliman A-Z',value:'a-z'}
                         ]},
-                        {label: 'Research',value:'research',items:[
+                        {label: 'Research',value:'research',url:'#research',items:[
                             {label: 'BIKE',value:'bike'},
                             {label: 'Health Research',value:'health'},
                             {label: 'Life Research & Development',value:'life'},
                             {label: 'Milliman Insight',value:'insight'}
                         ]},
-                        {label: 'Policies & Guidelines',value:'policies',expanded:true,items:[
-                            {label: 'Overview', value: 'overview'},
+                        {label: 'Policies & Guidelines',value:'policies',url:'#policies',expanded:true,items:[
+                            {label: 'Overview', value: 'overview',url:'#overview'},
                             {label: 'Policies',value:'policies'},
                             {label: 'Guidelines',value:'guidelines'},
                             {label: 'Procedures',value:'Procedures'}
                         ]},
-                        {label: 'About Milliman',value:'about',expanded:true,items:[
+                        {label: 'About Milliman',value:'about',url:'#about',expanded:true,items:[
                             {label: 'Overview',value:'overview'},
                             {label: 'Company Timeline',value:'timeline'},
                             {label: 'Contacts',value:'contacts'}
@@ -442,7 +442,6 @@ Four
                     //$(e.currentTarget).css('background', '#41c69e')
                     selected: true
                 },
-                
                 setPage: function () {
                     var startAt = (this.page - 1) * this.toShow;
                     var endAt = (this.page * this.toShow);
@@ -481,6 +480,11 @@ Four
                     this.setPage();
                     console.log('contWidth::' + contWidth);
                 },
+                changeLocation: function (loc) {
+                    if(loc) {
+                        window.location.href = loc;
+                    }
+                }
                 // uncheck: function (checkedName) {
                 //     this.checkedNav = false;
                 //     // this.checkedNames = this.checkedNames.filter(name => name !== checkedName);
